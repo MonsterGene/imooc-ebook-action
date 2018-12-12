@@ -2,7 +2,7 @@
 <div class="menu-bar">
     <transition name="slide-up">
         <div class="menu-wrapper"
-            :class="{'hide-box-shadow': !menuVisible}"
+            :class="{'hide-box-shadow': !menuVisible || setSettingVisible >= 0}"
             v-show="menuVisible"
         >
             <div class="icon-wrapper">
@@ -19,15 +19,18 @@
             </div>
         </div>
     </transition>
+    <ebook-setting-font></ebook-setting-font>
 </div>
 </template>
 <script>
+import EbookSettingFont from './EbookSettingFont.vue'
 import { ebookMixin } from '../../utils/mixin'
 export default {
   mixins: [ebookMixin],
+  components: { EbookSettingFont },
   methods: {
     showSetting (key) {
-
+      this.setSettingVisible(key)
     }
   }
 }
