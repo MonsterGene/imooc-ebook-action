@@ -33,14 +33,17 @@ export default {
         this.setSettingVisible(-1)
       }
       this.setMenuVisible(!this.menuVisible)
+      this.setFontFamilyVisible(false)
     },
     hideTitleAndMenu () {
       this.setMenuVisible(false)
       this.setSettingVisible(-1)
+      this.setFontFamilyVisible(false)
     },
     initEpub () {
       const url = 'http://10.132.50.108:8060/imooc-ebook-action/epub/' + this.fileName + '.epub'
       this.book = new Epub(url)
+      this.setCurrentBook(this.book)
       console.log(this.book)
       this.rendition = this.book.renderTo('read', {
         width: innerWidth,
@@ -66,6 +69,14 @@ export default {
         }
         evt.preventDefault()
         evt.stopPropagation()
+      })
+      this.rendition.hooks.content.register(contents => {
+        Promise.all([
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/daysOne.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/cabin.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/montserrat.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/tangerine.css`)
+        ]).then(() => {})
       })
     }
   },

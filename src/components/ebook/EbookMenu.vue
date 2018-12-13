@@ -20,14 +20,17 @@
         </div>
     </transition>
     <ebook-setting-font></ebook-setting-font>
+    <ebook-setting-font-popup></ebook-setting-font-popup>
 </div>
 </template>
 <script>
 import EbookSettingFont from './EbookSettingFont.vue'
+import EbookSettingFontPopup from './EbookSettingFontPopup.vue'
 import { ebookMixin } from '../../utils/mixin'
+
 export default {
   mixins: [ebookMixin],
-  components: { EbookSettingFont },
+  components: { EbookSettingFont, EbookSettingFontPopup },
   methods: {
     showSetting (key) {
       this.setSettingVisible(key)

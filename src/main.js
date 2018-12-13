@@ -7,7 +7,7 @@ import './assets/styles/global.scss'
 
 Vue.config.productionTip = false
 
-new Vue({
+window.vm = new Vue({
   router,
   store,
   render: h => h(App)
