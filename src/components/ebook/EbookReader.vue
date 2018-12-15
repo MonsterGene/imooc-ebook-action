@@ -7,6 +7,12 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
+import {
+  getFontFamily,
+  saveFontFamily,
+  getFontSize,
+  saveFontSize
+} from '../../utils/localStorage'
 global.ePub = Epub
 
 export default {
@@ -40,6 +46,24 @@ export default {
       this.setSettingVisible(-1)
       this.setFontFamilyVisible(false)
     },
+    initFontSize () {
+      let fontSize = getFontSize(this.fileName)
+      if (!fontSize) {
+        saveFontSize(this.fileName, this.defaultFontSize)
+      } else {
+        this.rendition.themes.font(fontSize)
+        this.setDefaultFontSize(fontSize)
+      }
+    },
+    initFontFamily () {
+      let font = getFontFamily(this.fileName)
+      if (!font) {
+        saveFontFamily(this.fileName, this.defaultFontFamily)
+      } else {
+        this.rendition.themes.font(font)
+        this.setDefaultFontFamily(font)
+      }
+    },
     initEpub () {
       const url = 'http://10.132.50.108:8060/imooc-ebook-action/epub/' + this.fileName + '.epub'
       this.book = new Epub(url)
@@ -50,7 +74,10 @@ export default {
         height: innerHeight,
         methods: 'default'
       })
-      this.rendition.display()
+      this.rendition.display().then(() => {
+        this.initFontSize()
+        this.initFontFamily()
+      })
       this.rendition.on('touchstart', evt => {
         // evt.preventDefault()
         // evt.stopPropagation()
