@@ -11,7 +11,9 @@ import {
   getFontFamily,
   saveFontFamily,
   getFontSize,
-  saveFontSize
+  saveFontSize,
+  saveTheme,
+  getTheme
 } from '../../utils/localStorage'
 global.ePub = Epub
 
@@ -55,6 +57,18 @@ export default {
         this.setDefaultFontSize(fontSize)
       }
     },
+    initTheme () {
+      let defaultTheme = getTheme(this.fileName)
+      if (!defaultTheme) {
+        defaultTheme = this.themeList[0].name
+        saveTheme(this.fileName, defaultTheme)
+      }
+      this.setDefaultTheme(defaultTheme)
+      this.themeList.forEach(theme => {
+        this.rendition.themes.register(theme.name, theme.style)
+      })
+      this.rendition.themes.select(this.defaultTheme)
+    },
     initFontFamily () {
       let font = getFontFamily(this.fileName)
       if (!font) {
@@ -64,20 +78,28 @@ export default {
         this.setDefaultFontFamily(font)
       }
     },
-    initEpub () {
-      const url = 'http://10.132.50.108:8060/imooc-ebook-action/epub/' + this.fileName + '.epub'
-      this.book = new Epub(url)
-      this.setCurrentBook(this.book)
-      console.log(this.book)
+    initRendition () {
       this.rendition = this.book.renderTo('read', {
         width: innerWidth,
         height: innerHeight,
         methods: 'default'
       })
       this.rendition.display().then(() => {
+        this.initTheme()
         this.initFontSize()
         this.initFontFamily()
+        this.initGlobalStyle()
       })
+      this.rendition.hooks.content.register(contents => {
+        Promise.all([
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/daysOne.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/cabin.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/montserrat.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/tangerine.css`)
+        ]).then(() => {})
+      })
+    },
+    initGesture () {
       this.rendition.on('touchstart', evt => {
         // evt.preventDefault()
         // evt.stopPropagation()
@@ -97,13 +119,19 @@ export default {
         evt.preventDefault()
         evt.stopPropagation()
       })
-      this.rendition.hooks.content.register(contents => {
-        Promise.all([
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/daysOne.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/cabin.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/montserrat.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/imooc-ebook-action/fonts/tangerine.css`)
-        ]).then(() => {})
+    },
+    initEpub () {
+      const url = `${process.env.VUE_APP_RES_URL}/imooc-ebook-action/epub/` + this.fileName + `.epub`
+      this.book = new Epub(url)
+      this.setCurrentBook(this.book)
+      // console.log(this.book)
+      this.initRendition()
+      this.initGesture()
+      this.book.ready.then(() => {
+        return this.book.locations.generate(750 * (window.innerWidth / 375) * (getFontSize(this.fileName) / 16))
+      }).then(locations => {
+        // console.log(locations)
+        this.setBookAvailable(true)
       })
     }
   },
