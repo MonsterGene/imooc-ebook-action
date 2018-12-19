@@ -3,12 +3,12 @@
   <div class="setting-wrapper" v-show="menuVisible && settingVisible === 2">
     <div class="setting-progress">
       <div class="read-time-wrapper">
-        <span class="read-time-text">阅读时间</span>
+        <span class="read-time-text">{{ getReadTimeText() }}</span>
         <span class="icon-forward"></span>
       </div>
       <div class="progress-wrapper">
-        <div class="progress-icon-wrapper">
-          <span class="icon-back" @click="prevSection()"></span>
+        <div class="progress-icon-wrapper" @click="prevSection()">
+          <span class="icon-back"></span>
         </div>
         <input
           class="progress"
@@ -21,11 +21,12 @@
           :disabled="!bookAvailable"
           ref="progress"
         />
-        <div class="progress-icon-wrapper">
-          <span class="icon-forward" @click="nextSection()"></span>
+        <div class="progress-icon-wrapper" @click="nextSection()">
+          <span class="icon-forward"></span>
         </div>
       </div>
       <div class="text-wrapper">
+        <span class="progress-section-text">{{ getSectionName }}</span>
         <span>{{bookAvailable ? progress + '%' : '加载中...'}}</span>
       </div>
     </div>
@@ -35,9 +36,21 @@
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
+import { getReadTime } from '../../utils/localStorage'
 
 export default {
   mixins: [ebookMixin],
+  computed: {
+    getSectionName () {
+      if (this.section) {
+        const sectionInfo = this.currentBook.section(this.section)
+        if (sectionInfo && sectionInfo.href) {
+          return this.currentBook.navigation.get(sectionInfo.href).label
+        }
+      }
+      return ''
+    }
+  },
   methods: {
     onProgressChange (progress) {
       this.setProgress(progress).then(() => {
@@ -53,15 +66,43 @@ export default {
       // this.updateProgressBackground()
     },
     displayProgress () {
-      console.log(this.currentBook)
       const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
-      this.currentBook.rendition.display(cfi)
+      this.display(cfi)
     },
     updateProgressBackground () {
       this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
     },
-    prevSection () {},
-    nextSection () {}
+    prevSection () {
+      if (this.section > 0 && this.bookAvailable) {
+        this.setSection(this.section - 1).then(() => {
+          this.displaySection()
+        })
+      }
+    },
+    nextSection () {
+      if (this.section < this.currentBook.spine.length - 1 && this.bookAvailable) {
+        this.setSection(this.section + 1).then(() => {
+          this.displaySection()
+        })
+      }
+    },
+    displaySection () {
+      const sectionInfo = this.currentBook.section(this.section)
+      if (sectionInfo && sectionInfo.href) {
+        this.display(sectionInfo.href)
+      }
+    },
+    getReadTimeText () {
+      return this.$t('book.haveRead').replace('$1', this.getReadTimeByMinute())
+    },
+    getReadTimeByMinute () {
+      const readTime = getReadTime(this.fileName)
+      if (!readTime) {
+        return 0
+      } else {
+        return Math.ceil(readTime / 60)
+      }
+    }
   },
   updated () {
     this.updateProgressBackground()
@@ -86,7 +127,7 @@ export default {
     width: 100%;
     height: 100%;
     .read-time-wrapper {
-      position: relative;
+      position: absolute;
       left: 0;
       top: 0;
       width: 100%;
@@ -129,7 +170,12 @@ export default {
       width: 100%;
       color: #333;
       font-size: px2rem(12);
-      text-align: center;
+      padding: 0 px2rem(25);
+      box-sizing: border-box;
+      @include center;
+      .progress-section-text {
+        @include ellipsis;
+      }
     }
   }
 }
