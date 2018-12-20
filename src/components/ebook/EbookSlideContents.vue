@@ -64,6 +64,16 @@ export default {
     }
   },
   methods: {
+    doSearch (q) {
+      return Promise.all(
+        this.currentBook.spine.spineItems.map(
+          item => item.load(this.currentBook.load.bind(this.currentBook))
+            .then(item.find.bind(item, q))
+            .finally(item.unload.bind(item)))
+      ).then(result => {
+        Promise.resolve([].concat.apply([], results))
+      })
+    },
     displayNavigation (target) {
       this.display(target, () => {
         this.hideTitleAndMenu()
