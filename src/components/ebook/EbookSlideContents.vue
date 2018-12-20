@@ -7,8 +7,10 @@
       </div>
       <input
         type="text"
+        v-model="searchText"
         class="slide-contents-search-input"
         :placeholder="$t('book.searchHint')"
+        @keyup.enter.exact="search"
         @click="showSearchPage"
       />
     </div>
@@ -18,7 +20,7 @@
       @click="hideSearchPage()"
     >{{ $t('book.cancel') }}</div>
   </div>
-  <div class="slide-contents-book-wrapper">
+  <div class="slide-contents-book-wrapper" v-show="!searchVisible">
     <div class="slide-contents-book-img-wrapper">
       <img :src="cover" alt="" class="slide-contents-book-img">
     </div>
@@ -34,16 +36,36 @@
       <div class="slide-contents-book-time">{{ getReadTimeText() }}</div>
     </div>
   </div>
-  <scroll class="slide-contents-list" :top="156" :bottom="48" ref="scroll">
+  <scroll
+    class="slide-contents-list"
+    :top="156"
+    :bottom="48"
+    v-show="!searchVisible"
+    ref="scroll"
+  >
     <div class="slide-contents-item" v-for="(item, index) in navigation" :key="index">
       <span
         class="slide-contents-item-label"
         :class="{'selected': section === index }"
         :style="contentItemStyle(item)"
-        @click="displayNavigation(item.href)"
+        @click="displayContent(item.href)"
       >{{ item.label }}</span>
       <span class="slide-contents-item-page"></span>
     </div>
+  </scroll>
+  <scroll
+    class="slide-search-list"
+    :top="66"
+    :bottom="48"
+    v-show="searchVisible"
+  >
+    <div
+      class="slide-search-item"
+      v-for="(item, index) in searchList"
+      :key="index"
+      v-html="item.excerpt"
+      @click="displayContent(item.cfi, true)"
+    ></div>
   </scroll>
 </div>
 </template>
@@ -60,23 +82,38 @@ export default {
   },
   data () {
     return {
-      searchVisible: false
+      searchVisible: false,
+      searchList: null,
+      searchText: ''
     }
   },
   methods: {
+    search () {
+      if (this.searchText && this.searchText.length > 0) {
+        console.log('search')
+        this.doSearch(this.searchText).then(list => {
+          this.searchList = list
+          this.searchList.map(item => {
+            item.excerpt = item.excerpt.replace(this.searchText, `<span class="content-search-text">${this.searchText}</span>`)
+            return item
+          })
+        })
+      }
+    },
     doSearch (q) {
       return Promise.all(
         this.currentBook.spine.spineItems.map(
           item => item.load(this.currentBook.load.bind(this.currentBook))
             .then(item.find.bind(item, q))
             .finally(item.unload.bind(item)))
-      ).then(result => {
-        Promise.resolve([].concat.apply([], results))
-      })
+      ).then(results => Promise.resolve([].concat.apply([], results)))
     },
-    displayNavigation (target) {
+    displayContent (target, highlight = false) {
       this.display(target, () => {
         this.hideTitleAndMenu()
+        if (highlight) {
+          this.currentBook.rendition.annotations.highlight(target)
+        }
       })
     },
     showSearchPage () {
@@ -84,6 +121,8 @@ export default {
     },
     hideSearchPage () {
       this.searchVisible = false
+      this.searchText = ''
+      this.searchList = null
     },
     contentItemStyle (item) {
       return {
@@ -145,38 +184,38 @@ export default {
         height: px2rem(60);
       }
     }
-  }
-  .slide-contents-book-info-wrapper {
-    flex: 1;
-    padding: 0 px2rem(10);
-    box-sizing: border-box;
-    .slide-content-book-title {
-      // 375*0.85=318.75-30=288.75-20=268.75-45=223.75-70=153.75
-      width: px2rem(153.75);
-      font-size: px2rem(14);
-      line-height: px2rem(16);
-      @include ellipsis2(3);
-    }
-    .slide-content-book-author {
-      width: px2rem(153.75);
-      font-size: px2rem(12);
-      margin-top: px2rem(5);
-      @include ellipsis;
-    }
-  }
-  .slide-contents-book-progress-wrapper {
-    flex: 0 0 px2rem(70);
-    .slide-contents-book-progress {
-      .progress {
+    .slide-contents-book-info-wrapper {
+      flex: 1;
+      padding: 0 px2rem(10);
+      box-sizing: border-box;
+      .slide-content-book-title {
+        // 375*0.85=318.75-30=288.75-20=268.75-45=223.75-70=153.75
+        width: px2rem(153.75);
         font-size: px2rem(14);
+        line-height: px2rem(16);
+        @include ellipsis2(3);
       }
-      .progress-text {
+      .slide-content-book-author {
+        width: px2rem(153.75);
         font-size: px2rem(12);
+        margin-top: px2rem(5);
+        @include ellipsis;
       }
     }
-    .slide-contents-book-time {
-      font-size: px2rem(12);
-      margin-top: px2rem(5);
+    .slide-contents-book-progress-wrapper {
+      flex: 0 0 px2rem(70);
+      .slide-contents-book-progress {
+        .progress {
+          font-size: px2rem(14);
+        }
+        .progress-text {
+          font-size: px2rem(12);
+        }
+      }
+      .slide-contents-book-time {
+        font-size: px2rem(12);
+        margin-top: px2rem(5);
+      }
     }
   }
   .slide-contents-list {
@@ -193,6 +232,16 @@ export default {
         @include ellipsis;
       }
       .slide-contents-item-page {}
+    }
+  }
+  .slide-search-list {
+    padding: 0 px2rem(15);
+    box-sizing: border-box;
+    .slide-search-item {
+      font-size: px2rem(14);
+      line-height: px2rem(16);
+      padding: px2rem(20) 0;
+      box-sizing: border-box;
     }
   }
 }
