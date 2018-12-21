@@ -30,7 +30,7 @@ export default {
         this.$refs.bookmark.style.borderWidth = `
           ${px2rem(this.height - 5)}rem 
           ${px2rem(this.width / 2)}rem 
-          ${px2rem(this.height - 5)}rem 
+          ${px2rem(5)}rem 
           ${px2rem(this.width / 2)}rem
         `
       }

@@ -1,13 +1,13 @@
 <template>
 <div class="ebook-bookmark" ref="bookmark">
   <div class="ebook-bookmark-text-wrapper">
-    <div class="ebook-bookmark-down-wrapper">
+    <div class="ebook-bookmark-down-wrapper" ref="iconDown">
       <span class="icon-down"></span>
     </div>
     <div class="ebook-bookmark-text">{{ text }}</div>
   </div>
-  <div class="ebook-bookmark-icon-wrapper">
-    <bookmark :color="color" :width="15" :height="25"></bookmark>
+  <div class="ebook-bookmark-icon-wrapper" :style="isFixed ? fixedStyle : {}">
+    <bookmark :color="color" :width="15" :height="35"></bookmark>
   </div>
 </div>
 </template>
@@ -16,7 +16,9 @@
 import Bookmark from '../common/Bookmark.vue'
 import { realPx } from '../../utils/utils'
 import { ebookMixin } from '../../utils/mixin'
-// const BLUE = '#346CBC'
+import { setTimeout } from 'timers'
+import { getBookmark, saveBookmark } from '../../utils/localStorage'
+const BLUE = '#346CBC'
 const WHITE = '#FFF'
 export default {
   mixins: [ebookMixin],
@@ -26,7 +28,8 @@ export default {
   data () {
     return {
       text: '',
-      color: WHITE
+      color: WHITE,
+      isFixed: false
     }
   },
   computed: {
@@ -34,15 +37,118 @@ export default {
       return realPx(35)
     },
     threshold () {
-      return realPx(55)
+      return realPx(65)
+    },
+    fixedStyle () {
+      return {
+        position: 'fixed',
+        top: 0,
+        right: `${(window.innerWidth - this.$refs.bookmark.clientWidth) / 2}px`
+      }
     }
   },
   watch: {
     offsetY (v) {
+      if (!this.bookAvailable || this.menuVisible || this.settingVisible >= 0) return
       if (v >= this.height && v <= this.threshold) {
-        console.log('222222222222')
+        this.beforeThreshold(v)
+      } else if (v >= this.threshold) {
+        this.afterThreshold(v)
+      } else if (v > 0 && v < this.height) {
+        this.beforeHeight()
+      } else if (v === 0) {
+        this.restore()
       }
-      // this.$t('book.pulldownAddMark')
+    },
+    isBookmark (isBookmark) {
+      this.isFixed = isBookmark
+      if (isBookmark) {
+        this.color = BLUE
+      } else {
+        this.color = WHITE
+      }
+    }
+  },
+  methods: {
+    addBookmark () {
+      this.bookmark = getBookmark(this.fileName)
+      if (!this.bookmark) {
+        this.bookmark = []
+      }
+      const currentLocation = this.currentBook.rendition.currentLocation()
+      const cfibase = currentLocation.start.cfi.replace(/!.*/, '')
+      const cfistart = currentLocation.start.cfi.replace(/.*!/, '').replace(/\)$/, '')
+      const cfiend = currentLocation.end.cfi.replace(/.*!/, '').replace(/\)$/, '')
+      const cfirange = `${cfibase}!,${cfistart},${cfiend})`
+      this.currentBook.getRange(cfirange).then(range => {
+        const text = range.toString().replace(/\s\s/g, '')
+        this.bookmark.push({
+          cfi: currentLocation.start.cfi,
+          text: text
+        })
+        saveBookmark(this.fileName, this.bookmark)
+      })
+    },
+    removeBookmark () {
+      const currentLocation = this.currentBook.rendition.currentLocation()
+      const cfi = currentLocation.start.cfi
+      this.bookmark = getBookmark(this.fileName)
+      if (this.bookmark) {
+        saveBookmark(this.fileName, this.bookmark.filter(item => item.cfi !== cfi))
+        this.setIsBookmark(false)
+      }
+    },
+    restore () {
+      // 4 归位
+      setTimeout(() => {
+        this.$refs.bookmark.style.top = `${-this.height}px`
+        this.$refs.iconDown.style.transform = ''
+      }, 200)
+      if (this.isFixed) {
+        this.setIsBookmark(true)
+        this.addBookmark()
+      } else {
+        this.setIsBookmark(false)
+        this.removeBookmark()
+      }
+    },
+    beforeHeight () {
+      // 1 未超过书签的高度
+      if (this.isBookmark) {
+        this.text = this.$t('book.pulldownDeleteMark')
+        this.color = BLUE
+        this.isFixed = true
+      } else {
+        this.text = this.$t('book.pulldownAddMark')
+        this.color = WHITE
+        this.isFixed = false
+      }
+    },
+    beforeThreshold (v) {
+      // 2 未到达零界状态
+      this.$refs.bookmark.style.top = `${-v}px`
+      this.beforeHeight()
+      const iconDown = this.$refs.iconDown
+      if (iconDown.style.transform === 'rotate(180deg)') {
+        iconDown.style.transform = ''
+      }
+    },
+    afterThreshold (v) {
+      // 3 超越零界状态
+      this.$refs.bookmark.style.top = `${-v}px`
+      if (this.isBookmark) {
+        this.text = this.$t('book.releaseDeleteMark')
+        this.color = WHITE
+        this.isFixed = false
+      } else {
+        this.text = this.$t('book.releaseAddMark')
+        this.color = BLUE
+        this.isFixed = true
+      }
+      const iconDown = this.$refs.iconDown
+      if (iconDown.style.transform === '') {
+        iconDown.style.transform = 'rotate(180deg)'
+      }
     }
   }
 }
