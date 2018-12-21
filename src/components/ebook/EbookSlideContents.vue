@@ -70,7 +70,7 @@ export default {
           item => item.load(this.currentBook.load.bind(this.currentBook))
             .then(item.find.bind(item, q))
             .finally(item.unload.bind(item)))
-      ).then(result => {
+      ).then(results => {
         Promise.resolve([].concat.apply([], results))
       })
     },
