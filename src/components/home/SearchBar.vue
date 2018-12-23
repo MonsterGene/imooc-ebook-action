@@ -1,60 +1,116 @@
 <template>
-<div class="search-bar" :class="{'hide-title': !titleVisible}">
-  <div class="title-icon-back-wrapper" :class="{'hide-title': !titleVisible}">
-    <span class="icon-back icon"></span>
-  </div>
-  <transition name="title-move">
-    <div class="search-bar-title-wrapper" v-show="titleVisible">
-      <div class="title-text-wrapper">
-        <span class="title-text title">{{ $t('home.title') }}</span>
+<div>
+  <div class="search-bar" :class="{'hide-title': !titleVisible, 'hide-shadow': !shadowVisible}">
+    <div
+      class="title-icon-back-wrapper"
+      :class="{'hide-title': !titleVisible}"
+      @click="back">
+      <span class="icon-back icon"></span>
+    </div>
+    <transition name="title-move">
+      <div class="search-bar-title-wrapper" v-show="titleVisible">
+        <div class="title-text-wrapper">
+          <span class="title-text title">{{ $t('home.title') }}</span>
+        </div>
+        <div class="title-icon-shake-wrapper" @click="showFlapCard">
+          <span class="icon-shake icon"></span>
+        </div>
       </div>
-      <div class="title-icon-shake-wrapper">
-        <span class="icon-shake icon"></span>
+    </transition>
+    <div class="search-bar-input-wrapper" :class="{'hide-title': !titleVisible}">
+      <div class="search-bar-blank" :class="{'hide-title': !titleVisible}"></div>
+      <div class="search-bar-input">
+        <span class="icon-search icon"></span>
+        <input
+          type="text"
+          class="input"
+          :placeholder="$t('home.hint')"
+          v-model="searchText"
+          @click="showHotSearch"
+        />
       </div>
     </div>
-  </transition>
-  <div class="search-bar-input-wrapper" :class="{'hide-title': !titleVisible}">
-    <div class="search-bar-blank" :class="{'hide-title': !titleVisible}"></div>
-    <div class="search-bar-input">
-      <span class="icon-search icon"></span>
-      <input
-        type="text"
-        class="input"
-        :placeholder="$t('home.hint')"
-        v-model="searchText"
-      />
-    </div>
   </div>
+  <hot-search-list v-show="hotSearchVisible" ref="hotSearch"></hot-search-list>
 </div>
 </template>
 
 <script>
 import { storeHomeMixin } from '../../utils/mixin'
+import hotSearchList from './HotSearchList.vue'
 
 export default {
   mixins: [storeHomeMixin],
+  components: { hotSearchList },
   data () {
     return {
       searchText: '',
-      titleVisible: true
+      titleVisible: true,
+      shadowVisible: false,
+      hotSearchVisible: false
     }
   },
   watch: {
     offsetY (offsetY) {
-      console.log(offsetY)
       if (offsetY > 0) {
         this.hideTitle()
+        this.showShadow()
       } else {
         this.showTitle()
+        this.hideShadow()
+      }
+    },
+    hotSearchOffsetY (offsetY) {
+      if (offsetY > 0) {
+        this.showShadow()
+      } else {
+        this.hideShadow()
       }
     }
   },
   methods: {
+    showFlapCard () {
+      this.setFlapCardVisible(true)
+    },
+    back () {
+      if (this.offsetY > 0) {
+        this.showShadow()
+      } else {
+        this.hideShadow()
+      }
+      this.hideHotSearch()
+    },
+    showHotSearch () {
+      this.hideTitle()
+      this.hideShadow()
+      this.hotSearchVisible = true
+      this.$nextTick(() => {
+        this.$refs.hotSearch.reset()
+      })
+    },
+    hideHotSearch () {
+      this.hotSearchVisible = false
+      if (this.offsetY > 0) {
+        this.hideTitle()
+        this.showShadow()
+      } else {
+        this.showTitle()
+        this.hideShadow()
+      }
+    },
     hideTitle () {
       this.titleVisible = false
     },
     showTitle () {
       this.titleVisible = true
+    },
+    hideShadow () {
+      console.log('hide shadow')
+      this.shadowVisible = false
+    },
+    showShadow () {
+      console.log('show shadow')
+      this.shadowVisible = true
     }
   }
 }
@@ -64,18 +120,24 @@ export default {
 @import "../../assets/styles/global";
 .search-bar {
   position: relative;
+  z-index: 110;
   width: 100%;
   height: px2rem(94);
+  box-shadow: 0 px2rem(2) px2rem(2) 0 rgba(0, 0, 0, .1);
   &.hide-title {
     height: px2rem(52);
+  }
+  &.hide-shadow {
+    box-shadow: none;
   }
   .title-icon-back-wrapper {
     position: absolute;
     top: 0;
     left: px2rem(15);
+    z-index: 120;
     height: px2rem(42);
     @include center;
-    transition: height .2s linear;
+    transition: height $animationTime $animationType;
     &.hide-title {
       height: px2rem(52);
     }
@@ -106,14 +168,14 @@ export default {
     padding: 0 px2rem(15);
     box-sizing: border-box;
     @include center;
-    transition: top .2s linear;
+    transition: top $animationTime $animationType;
     &.hide-title {
       top: 0;
     }
     .search-bar-blank {
       flex: 0 0 0;
       width: 0;
-      transition: all .2s linear;
+      transition: all $animationTime $animationType;
       &.hide-title {
         flex: 0 0 px2rem(31);
         width: px2rem(31);

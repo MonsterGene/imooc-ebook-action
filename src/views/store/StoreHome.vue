@@ -1,6 +1,7 @@
 <template>
 <div class="store-home">
   <search-bar></search-bar>
+  <flap-card></flap-card>
   <scroll :top="scrollTop" @onScroll="onScroll" ref="scroll">
     <p>金梅</p>
     <p>金梅</p>
@@ -28,11 +29,12 @@
 <script>
 import SearchBar from '../../components/home/SearchBar.vue'
 import Scroll from '../../components/common/Scroll.vue'
+import FlapCard from '../../components/home/FlapCard.vue'
 import { storeHomeMixin } from '../../utils/mixin'
 
 export default {
   mixins: [storeHomeMixin],
-  components: { SearchBar, Scroll },
+  components: { SearchBar, Scroll, FlapCard },
   data () {
     return {
       scrollTop: 94

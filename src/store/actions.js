@@ -17,7 +17,9 @@ const actions = {
   setPaginate: ({ commit }, paginate) => commit('SET_PAGINATE', paginate),
   setPagelist: ({ commit }, pagelist) => commit('SET_PAGELIST', pagelist),
   setOffsetY: ({ commit }, offsetY) => commit('SET_OFFSETY', offsetY),
-  setIsBookmark: ({ commit }, isBookmark) => commit('SET_IS_BOOKMARK', isBookmark)
+  setIsBookmark: ({ commit }, isBookmark) => commit('SET_IS_BOOKMARK', isBookmark),
+  setHotSearchOffsetY: ({ commit }, hotSearchOffsetY) => commit('SET_HOT_SEARCH_OFFSETY', hotSearchOffsetY),
+  setFlapCardVisible: ({ commit }, flapCardVisible) => commit('SET_FLAP_CARD_VISIBLE', flapCardVisible)
 }
 
 export default actions
