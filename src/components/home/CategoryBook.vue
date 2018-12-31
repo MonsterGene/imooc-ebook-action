@@ -16,33 +16,33 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import TitleView from './Title'
-  import { categoryText, getCategoryName } from '../../utils/store'
-  import { storeHomeMixin } from '../../utils/mixin'
+import TitleView from './Title'
+import { categoryText, getCategoryName } from '../../utils/store'
+import { storeHomeMixin } from '../../utils/mixin'
 
-  export default {
-    mixins: [storeHomeMixin],
-    components: {
-      TitleView
+export default {
+  mixins: [storeHomeMixin],
+  components: {
+    TitleView
+  },
+  props: {
+    data: Object
+  },
+  methods: {
+    showBookCategory () {
+      this.$router.push({
+        path: '/store/list',
+        query: {
+          category: getCategoryName(this.data.category),
+          categoryText: this.categoryText(this.data.category)
+        }
+      })
     },
-    props: {
-      data: Object
-    },
-    methods: {
-      showBookCategory() {
-        this.$router.push({
-          path: '/store/list',
-          query: {
-            category: getCategoryName(this.data.category),
-            categoryText: this.categoryText(this.data.category)
-          }
-        })
-      },
-      categoryText(category) {
-        return categoryText(category, this)
-      }
+    categoryText (category) {
+      return categoryText(category, this)
     }
   }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>

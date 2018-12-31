@@ -21,34 +21,34 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import TitleView from './Title'
-  import { categoryText, getCategoryName } from '../../utils/store'
+import TitleView from './Title'
+import { categoryText, getCategoryName } from '../../utils/store'
 
-  export default {
-    components: {
-      TitleView
+export default {
+  components: {
+    TitleView
+  },
+  props: {
+    data: Array
+  },
+  methods: {
+    showBookCategory (item) {
+      this.$router.push({
+        path: '/store/list',
+        query: {
+          category: getCategoryName(item.category),
+          categoryText: this.categoryText(item.category)
+        }
+      })
     },
-    props: {
-      data: Array
+    categoryText (category) {
+      return categoryText(category, this)
     },
-    methods: {
-      showBookCategory(item) {
-        this.$router.push({
-          path: '/store/list',
-          query: {
-            category: getCategoryName(item.category),
-            categoryText: this.categoryText(item.category)
-          }
-        })
-      },
-      categoryText(category) {
-        return categoryText(category, this)
-      },
-      showBookList() {
-        this.$router.push('/store/list')
-      }
+    showBookList () {
+      this.$router.push('/store/list')
     }
   }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>

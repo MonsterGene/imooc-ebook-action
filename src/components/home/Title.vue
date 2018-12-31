@@ -6,17 +6,17 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {
-    props: {
-      label: String,
-      btn: String
-    },
-    methods: {
-      click() {
-        this.$emit('onClick')
-      }
+export default {
+  props: {
+    label: String,
+    btn: String
+  },
+  methods: {
+    click () {
+      this.$emit('onClick')
     }
   }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>

@@ -16,18 +16,18 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import TitleView from './Title'
-  import { storeHomeMixin } from '../../utils/mixin'
+import TitleView from './Title'
+import { storeHomeMixin } from '../../utils/mixin'
 
-  export default {
-    mixins: [storeHomeMixin],
-    components: {
-      TitleView
-    },
-    props: {
-      data: Array
-    }
+export default {
+  mixins: [storeHomeMixin],
+  components: {
+    TitleView
+  },
+  props: {
+    data: Array
   }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
