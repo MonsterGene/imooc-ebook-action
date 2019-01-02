@@ -1,6 +1,6 @@
 <template>
 <div class="flap-card-wrapper" v-show="flapCardVisible">
-  <div class="flap-card-bg" :class="{'animation': runFlapCardAnimation}">
+  <div class="flap-card-bg" :class="{'animation': runFlapCardAnimation}" v-show="runFlapCardAnimation">
     <div
       class="flap-card"
       v-for="(item, index) in flapCardList"
@@ -21,6 +21,19 @@
       <div class="point" :class="{'animation': runPointAnimation}" v-for="item in pointList" :key="item"></div>
     </div>
   </div>
+  <div class="book-card" :class="{'animation': runBookCardAnimation}" v-show="runBookCardAnimation">
+    <div class="book-card-wrapper">
+      <div class="img-wrapper">
+        <img class="img" :src="data ? data.cover : ''">
+      </div>
+      <div class="content-wrapper">
+        <div class="content-title">{{ data ? data.title : '' }}</div>
+        <div class="content-author sub-title-medium">{{ data ? data.author : '' }}</div>
+        <div class="content-category">{{ categoryText() }}</div>
+      </div>
+      <div class="read-btn" @click.stop="showBookDetail(data)">{{ $t('home.readNow') }}</div>
+    </div>
+  </div>
   <div
     class="close-btn-wrapper"
     >
@@ -31,11 +44,14 @@
 
 <script>
 import { storeHomeMixin } from '../../utils/mixin'
-import { flapCardList } from '../../utils/store'
+import { flapCardList, categoryText } from '../../utils/store'
 import { setInterval, clearInterval, setTimeout } from 'timers'
 
 export default {
   mixins: [storeHomeMixin],
+  props: {
+    data: Object
+  },
   data () {
     return {
       flapCardList,
@@ -44,7 +60,8 @@ export default {
       intervalTime: 40,
       runFlapCardAnimation: false,
       pointList: null,
-      runPointAnimation: false
+      runPointAnimation: false,
+      runBookCardAnimation: false
     }
   },
   watch: {
@@ -163,6 +180,16 @@ export default {
         this.startFlapCardAnimation()
         this.startPointAnimation()
       }, 300)
+      setTimeout(() => {
+        this.runBookCardAnimation = true
+      }, 3000)
+    },
+    categoryText () {
+      if (this.data) {
+        categoryText(this.data.category, this)
+      } else {
+        return ''
+      }
     }
   },
   created () {
@@ -249,6 +276,78 @@ export default {
             }
           }
         }
+      }
+    }
+  }
+  .book-card {
+    position: relative;
+    width: 65%;
+    max-width: px2rem(400);
+    box-sizing: border-box;
+    border-radius: px2rem(15);
+    background: white;
+    &.animation {
+      animation: scale .3s ease-in both;
+      @keyframes scale {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    }
+    .book-card-wrapper {
+      width: 100%;
+      height: 100%;
+      margin-bottom: px2rem(30);
+      @include columnTop;
+      .img-wrapper {
+        width: 100%;
+        margin-top: px2rem(20);
+        @include center;
+        .img {
+          width: px2rem(90);
+          height: px2rem(130);
+        }
+      }
+      .content-wrapper {
+        padding: 0 px2rem(20);
+        margin-top: px2rem(20);
+        .content-title {
+          color: #333;
+          font-weight: bold;
+          font-size: px2rem(18);
+          line-height: px2rem(20);
+          max-height: px2rem(40);
+          text-align: center;
+          @include ellipsis2(2)
+        }
+        .content-author {
+          margin-top: px2rem(10);
+          text-align: center;
+        }
+        .content-category {
+          color: #999;
+          font-size: px2rem(14);
+          margin-top: px2rem(10);
+          text-align: center;
+        }
+      }
+      .read-btn {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 1100;
+        width: 100%;
+        border-radius: 0 0 px2rem(15) px2rem(15);
+        padding: px2rem(15) 0;
+        text-align: center;
+        color: white;
+        font-size: px2rem(14);
+        background: $color-blue;
       }
     }
   }

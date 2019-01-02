@@ -33,6 +33,13 @@ $ratio: 375 / 10;
   align-items: center;
 }
 
+@mixin columnTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 @mixin columnLeft {
   display: flex;
   flex-direction: column;
