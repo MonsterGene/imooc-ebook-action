@@ -1,6 +1,9 @@
 <template>
 <div class="flap-card-wrapper" v-show="flapCardVisible">
-  <div class="flap-card-bg" :class="{'animation': runFlapCardAnimation}" v-show="runFlapCardAnimation">
+  <div
+    class="flap-card-bg"
+    :class="{'animation': runFlapCardAnimation}"
+    v-show="runFlapCardAnimation">
     <div
       class="flap-card"
       v-for="(item, index) in flapCardList"
@@ -35,6 +38,22 @@
     </div>
   </div>
   <div
+    class="book-card"
+    :class="{'animation': runBookCardAnimation}"
+    v-show="runBookCardAnimation">
+    <div class="book-card-wrapper">
+      <div class="img-wrapper">
+        <img class="img" :src="data ? data.cover : ''">
+      </div>
+      <div class="content-wrapper">
+        <div class="content-title">{{ data ? data.title : '' }}</div>
+        <div class="content-author sub-title-medium">{{ data ? data.author : '' }}</div>
+        <div class="content-category">{{ categoryText() }}</div>
+      </div>
+      <div class="read-btn" @click.stop="showBookDetail(data)">{{ $t('home.readNow') }}</div>
+    </div>
+  </div>
+  <div
     class="close-btn-wrapper"
     >
     <span class="icon-close" @click="close"></span>
@@ -45,7 +64,7 @@
 <script>
 import { storeHomeMixin } from '../../utils/mixin'
 import { flapCardList, categoryText } from '../../utils/store'
-import { setInterval, clearInterval, setTimeout } from 'timers'
+import { setInterval, clearInterval, setTimeout, clearTimeout } from 'timers'
 
 export default {
   mixins: [storeHomeMixin],
@@ -150,15 +169,15 @@ export default {
         this.rotate(index, 'front')
         this.rotate(index, 'back')
       })
+      this.runBookCardAnimation = false
+      this.runFlapCardAnimation = false
+      this.runPointAnimation = false
     },
     startFlapCardAnimation () {
       this.prepare()
       this.task = setInterval(() => {
         this.flapCardRotate()
       }, this.intervalTime)
-      setTimeout(() => {
-        this.stopAnimation()
-      }, 3000)
     },
     startPointAnimation () {
       this.runPointAnimation = true
@@ -167,26 +186,28 @@ export default {
       }, 750)
     },
     stopAnimation () {
-      this.runFlapCardAnimation = false
       if (this.task) {
         clearInterval(this.task)
         this.task = null
       }
+      if (this.timeout) clearTimeout(this.timeout)
+      if (this.timeout2) clearTimeout(this.timeout2)
       this.reset()
     },
     runAnimation () {
       this.runFlapCardAnimation = true
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         this.startFlapCardAnimation()
         this.startPointAnimation()
       }, 300)
-      setTimeout(() => {
+      this.timeout2 = setTimeout(() => {
+        this.stopAnimation()
         this.runBookCardAnimation = true
       }, 3000)
     },
     categoryText () {
       if (this.data) {
-        categoryText(this.data.category, this)
+        return categoryText(this.data.category, this)
       } else {
         return ''
       }
@@ -321,9 +342,8 @@ export default {
           font-weight: bold;
           font-size: px2rem(18);
           line-height: px2rem(20);
-          max-height: px2rem(40);
           text-align: center;
-          @include ellipsis2(2)
+          @include ellipsis2(2);
         }
         .content-author {
           margin-top: px2rem(10);

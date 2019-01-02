@@ -159,8 +159,8 @@ export default {
     },
     initRendition () {
       this.rendition = this.book.renderTo('read', {
-        width: innerWidth,
-        height: innerHeight,
+        width: window.innerWidth,
+        height: window.innerHeight,
         methods: 'default'
       })
       const location = getLocation(this.fileName)
