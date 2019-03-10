@@ -24,6 +24,19 @@
       <div class="point" :class="{'animation': runPointAnimation}" v-for="item in pointList" :key="item"></div>
     </div>
   </div>
+  <div class="book-card" :class="{'animation': runBookCardAnimation}" v-show="runBookCardAnimation">
+    <div class="book-card-wrapper">
+      <div class="img-wrapper">
+        <img class="img" :src="data ? data.cover : ''">
+      </div>
+      <div class="content-wrapper">
+        <div class="content-title">{{ data ? data.title : '' }}</div>
+        <div class="content-author sub-title-medium">{{ data ? data.author : '' }}</div>
+        <div class="content-category">{{ categoryText() }}</div>
+      </div>
+      <div class="read-btn" @click.stop="showBookDetail(data)">{{ $t('home.readNow') }}</div>
+    </div>
+  </div>
   <div
     class="book-card"
     :class="{'animation': runBookCardAnimation}"
@@ -309,7 +322,7 @@ export default {
     }
     .book-card-wrapper {
       width: 100%;
-      height: 100;
+      height: 100%;
       margin-bottom: px2rem(30);
       @include columnTop;
       .img-wrapper {

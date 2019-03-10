@@ -311,144 +311,152 @@ module.exports = {
   'categoryList': [
     {
       'category': 2,
-      'list': [{
-        'cover': 'http://47.99.166.157/book/res/cover/ss/A978-3-319-61291-1_CoverFigure.jpg',
-        'title': 'Care in Healthcare',
-        'author': 'Franziska Krause and Joachim Boldt',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-61291-1',
-        'category': 2,
-        'fileName': '2018_Book_CareInHealthcare'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/ss/A978-3-319-69299-9_CoverFigure.jpg',
-        'title': 'Energy Poverty',
-        'author': 'Stefan Bouzarovski',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-69299-9',
-        'category': 2,
-        'fileName': '2018_Book_EnergyPoverty'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/ss/A978-981-10-7119-5_CoverFigure.jpg',
-        'title': 'Pragmatic Philanthropy',
-        'author': 'Ruth A. Shapiro, Manisha Mirchandani and Heesu Jang',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-981-10-7119-5',
-        'category': 2,
-        'fileName': '2018_Book_PragmaticPhilanthropy'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/ss/A978-3-319-68418-5_CoverFigure.jpg',
-        'title': 'Weather & Climate Services for the Energy Industry',
-        'author': 'Alberto Troccoli',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-68418-5',
-        'category': 2,
-        'fileName': '2018_Book_WeatherClimateServicesForTheEn'
-      }]
+      'list': [
+        {
+          'cover': 'http://47.99.166.157/book/res/cover/ss/A978-3-319-61291-1_CoverFigure.jpg',
+          'title': 'Care in Healthcare',
+          'author': 'Franziska Krause and Joachim Boldt',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-61291-1',
+          'category': 2,
+          'fileName': '2018_Book_CareInHealthcare'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/ss/A978-3-319-69299-9_CoverFigure.jpg',
+          'title': 'Energy Poverty',
+          'author': 'Stefan Bouzarovski',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-69299-9',
+          'category': 2,
+          'fileName': '2018_Book_EnergyPoverty'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/ss/A978-981-10-7119-5_CoverFigure.jpg',
+          'title': 'Pragmatic Philanthropy',
+          'author': 'Ruth A. Shapiro, Manisha Mirchandani and Heesu Jang',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-981-10-7119-5',
+          'category': 2,
+          'fileName': '2018_Book_PragmaticPhilanthropy'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/ss/A978-3-319-68418-5_CoverFigure.jpg',
+          'title': 'Weather & Climate Services for the Energy Industry',
+          'author': 'Alberto Troccoli',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-68418-5',
+          'category': 2,
+          'fileName': '2018_Book_WeatherClimateServicesForTheEn'
+        }
+      ]
     }, {
       'category': 3,
-      'list': [{
-        'cover': 'http://47.99.166.157/book/res/cover/eco/A978-3-319-69772-7_CoverFigure.jpg',
-        'title': 'A Fair Share of Tax',
-        'author': 'Lotta Björklund Larsen',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-69772-7',
-        'category': 3,
-        'fileName': '2018_Book_AFairShareOfTax'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/eco/A978-3-319-76222-7_CoverFigure.jpg',
-        'title': 'Building a Resilient and Sustainable Agriculture in Sub-Saharan Africa',
-        'author': 'Abebe Shimeles, Audrey Verdier-Chouchane and Amadou Boly',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-76222-7',
-        'category': 3,
-        'fileName': '2018_Book_BuildingAResilientAndSustainab'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/eco/A978-3-319-61194-5_CoverFigure.jpg',
-        'title': 'Climate Smart Agriculture',
-        'author': 'Leslie Lipper, Nancy McCarthy, David Zilberman, Solomon Asfaw and Giacomo Branca',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-61194-5',
-        'category': 3,
-        'fileName': '2018_Book_ClimateSmartAgriculture'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/eco/978-3-319-76644-7_CoverFigure.jpg',
-        'title': 'Competition Authorities in South Eastern Europe',
-        'author': 'Boris Begović',
-        'publisher': 'Springer International Publishing',
-        'bookId': '978-3-319-76644-7',
-        'category': 3,
-        'fileName': '2018_Book_CompetitionAuthoritiesInSouthE'
-      }]
+      'list': [
+        {
+          'cover': 'http://47.99.166.157/book/res/cover/eco/A978-3-319-69772-7_CoverFigure.jpg',
+          'title': 'A Fair Share of Tax',
+          'author': 'Lotta Björklund Larsen',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-69772-7',
+          'category': 3,
+          'fileName': '2018_Book_AFairShareOfTax'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/eco/A978-3-319-76222-7_CoverFigure.jpg',
+          'title': 'Building a Resilient and Sustainable Agriculture in Sub-Saharan Africa',
+          'author': 'Abebe Shimeles, Audrey Verdier-Chouchane and Amadou Boly',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-76222-7',
+          'category': 3,
+          'fileName': '2018_Book_BuildingAResilientAndSustainab'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/eco/A978-3-319-61194-5_CoverFigure.jpg',
+          'title': 'Climate Smart Agriculture',
+          'author': 'Leslie Lipper, Nancy McCarthy, David Zilberman, Solomon Asfaw and Giacomo Branca',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-61194-5',
+          'category': 3,
+          'fileName': '2018_Book_ClimateSmartAgriculture'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/eco/978-3-319-76644-7_CoverFigure.jpg',
+          'title': 'Competition Authorities in South Eastern Europe',
+          'author': 'Boris Begović',
+          'publisher': 'Springer International Publishing',
+          'bookId': '978-3-319-76644-7',
+          'category': 3,
+          'fileName': '2018_Book_CompetitionAuthoritiesInSouthE'
+        }
+      ]
     }, {
       'category': 4,
-      'list': [{
-        'cover': 'http://47.99.166.157/book/res/cover/edu/A978-981-13-0194-0_CoverFigure.jpg',
-        'title': 'Higher Education in the Era of the Fourth Industrial Revolution',
-        'author': 'Nancy W. Gleason',
-        'publisher': 'Springer Singapore, Singapore',
-        'bookId': '978-981-13-0194-0',
-        'category': 4,
-        'fileName': '2018_Book_HigherEducationInTheEraOfTheFo'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/edu/978-3-319-72170-5_CoverFigure.jpg',
-        'title': 'Invited Lectures from the 13th International Congress on Mathematical Education',
-        'author': 'Gabriele Kaiser',
-        'publisher': 'Springer International Publishing',
-        'bookId': '978-3-319-72170-5',
-        'category': 4,
-        'fileName': '2018_Book_InvitedLecturesFromThe13thInte'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/edu/A978-3-319-71532-2_CoverFigure.jpg',
-        'title': 'The Globalization of Science Curricula',
-        'author': 'Oliver Stacey, Giulia De Lazzari, Hilary Grayson, Hazel Griffin, Emily Jones, Amanda Taylor and David Thomas',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-71532-2',
-        'category': 4,
-        'fileName': '2018_Book_TheGlobalizationOfScienceCurri'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/edu/A978-3-319-73093-6_CoverFigure.jpg',
-        'title': 'Vocational Teacher Education in Central Asia',
-        'author': 'Jens Drummer, Gafurjon Hakimov, Mamatair Joldoshov, Thomas Köhler and Svetlana Udartseva',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-73093-6',
-        'category': 4,
-        'fileName': '2018_Book_VocationalTeacherEducationInCe'
-      }]
+      'list': [
+        {
+          'cover': 'http://47.99.166.157/book/res/cover/edu/A978-981-13-0194-0_CoverFigure.jpg',
+          'title': 'Higher Education in the Era of the Fourth Industrial Revolution',
+          'author': 'Nancy W. Gleason',
+          'publisher': 'Springer Singapore, Singapore',
+          'bookId': '978-981-13-0194-0',
+          'category': 4,
+          'fileName': '2018_Book_HigherEducationInTheEraOfTheFo'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/edu/978-3-319-72170-5_CoverFigure.jpg',
+          'title': 'Invited Lectures from the 13th International Congress on Mathematical Education',
+          'author': 'Gabriele Kaiser',
+          'publisher': 'Springer International Publishing',
+          'bookId': '978-3-319-72170-5',
+          'category': 4,
+          'fileName': '2018_Book_InvitedLecturesFromThe13thInte'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/edu/A978-3-319-71532-2_CoverFigure.jpg',
+          'title': 'The Globalization of Science Curricula',
+          'author': 'Oliver Stacey, Giulia De Lazzari, Hilary Grayson, Hazel Griffin, Emily Jones, Amanda Taylor and David Thomas',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-71532-2',
+          'category': 4,
+          'fileName': '2018_Book_TheGlobalizationOfScienceCurri'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/edu/A978-3-319-73093-6_CoverFigure.jpg',
+          'title': 'Vocational Teacher Education in Central Asia',
+          'author': 'Jens Drummer, Gafurjon Hakimov, Mamatair Joldoshov, Thomas Köhler and Svetlana Udartseva',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-73093-6',
+          'category': 4,
+          'fileName': '2018_Book_VocationalTeacherEducationInCe'
+        }
+      ]
     }, {
       'category': 1,
-      'list': [{
-        'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-89722-6_CoverFigure.jpg',
-        'title': 'Principles of Security and Trust',
-        'author': 'Lujo Bauer and Ralf Küsters',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-89722-6',
-        'category': 1,
-        'fileName': '2018_Book_PrinciplesOfSecurityAndTrust'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-62533-1_CoverFigure.jpg',
-        'title': 'Elements of Robotics',
-        'author': 'Mordechai Ben-Ari and Francesco Mondada',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-62533-1',
-        'category': 1,
-        'fileName': '2018_Book_ElementsOfRobotics'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-89884-1_CoverFigure.jpg',
-        'title': 'Programming Languages and Systems',
-        'author': 'Amal Ahmed',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-89884-1',
-        'category': 1,
-        'fileName': '2018_Book_ProgrammingLanguagesAndSystems'
-      }, {
-        'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-58316-7_CoverFigure.jpg',
-        'title': 'Musical Haptics',
-        'author': 'Stefano Papetti and Charalampos Saitis',
-        'publisher': 'Springer International Publishing, Cham',
-        'bookId': '978-3-319-58316-7',
-        'category': 1,
-        'fileName': '2018_Book_MusicalHaptics'
-      }]
+      'list': [
+        {
+          'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-89722-6_CoverFigure.jpg',
+          'title': 'Principles of Security and Trust',
+          'author': 'Lujo Bauer and Ralf Küsters',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-89722-6',
+          'category': 1,
+          'fileName': '2018_Book_PrinciplesOfSecurityAndTrust'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-62533-1_CoverFigure.jpg',
+          'title': 'Elements of Robotics',
+          'author': 'Mordechai Ben-Ari and Francesco Mondada',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-62533-1',
+          'category': 1,
+          'fileName': '2018_Book_ElementsOfRobotics'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-89884-1_CoverFigure.jpg',
+          'title': 'Programming Languages and Systems',
+          'author': 'Amal Ahmed',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-89884-1',
+          'category': 1,
+          'fileName': '2018_Book_ProgrammingLanguagesAndSystems'
+        }, {
+          'cover': 'http://47.99.166.157/book/res/cover/cs/A978-3-319-58316-7_CoverFigure.jpg',
+          'title': 'Musical Haptics',
+          'author': 'Stefano Papetti and Charalampos Saitis',
+          'publisher': 'Springer International Publishing, Cham',
+          'bookId': '978-3-319-58316-7',
+          'category': 1,
+          'fileName': '2018_Book_MusicalHaptics'
+        }
+      ]
     }
   ],
   'categories': [
