@@ -19,7 +19,19 @@ const actions = {
   setOffsetY: ({ commit }, offsetY) => commit('SET_OFFSETY', offsetY),
   setIsBookmark: ({ commit }, isBookmark) => commit('SET_IS_BOOKMARK', isBookmark),
   setHotSearchOffsetY: ({ commit }, hotSearchOffsetY) => commit('SET_HOT_SEARCH_OFFSETY', hotSearchOffsetY),
-  setFlapCardVisible: ({ commit }, flapCardVisible) => commit('SET_FLAP_CARD_VISIBLE', flapCardVisible)
+  setFlapCardVisible: ({ commit }, flapCardVisible) => commit('SET_FLAP_CARD_VISIBLE', flapCardVisible),
+  setIsEditMode ({ commit }, isEditMode) {
+    return commit('SET_IS_EDIT_MODE', isEditMode)
+  },
+  setShelfList ({ commit }, list) {
+    return commit('SET_SHELF_LIST', list)
+  },
+  setShelfSelected ({ commit }, selected) {
+    return commit('SET_SHELF_SELECTED', selected)
+  },
+  setShelfTitleVisible ({ commit }, visible) {
+    return commit('SET_SHELF_TITLE_VISIBLE', visible)
+  }
 }
 
 export default actions
