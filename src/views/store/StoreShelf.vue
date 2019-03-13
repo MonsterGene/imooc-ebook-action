@@ -3,6 +3,7 @@
   <shelf-title></shelf-title>
   <scroll class="store-shelf-scroll-wrapper" :top="0">
     <shelf-search></shelf-search>
+    <shelf-list></shelf-list>
   </scroll>
 </div>
 </template>
@@ -12,13 +13,29 @@ import ShelfTitle from '../../components/shelf/ShelfTitle.vue'
 import { storeShelfMixin } from '../../utils/mixin'
 import Scroll from '../../components/common/Scroll'
 import ShelfSearch from '../../components/shelf/ShelfSearch'
+import ShelfList from '../../components/shelf/ShelfList'
+import { shelf } from '../../api/store'
 
 export default {
   mixins: [storeShelfMixin],
   components: {
     ShelfTitle,
     Scroll,
-    ShelfSearch
+    ShelfSearch,
+    ShelfList
+  },
+  methods: {
+    getShelfList () {
+      shelf().then(res => {
+        console.log(res)
+        if (res.status === 200 && res.data && res.data.bookList) {
+          this.setShelfList(res.data.bookList)
+        }
+      })
+    }
+  },
+  mounted () {
+    this.getShelfList()
   }
 }
 </script>
