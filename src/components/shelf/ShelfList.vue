@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     itemHeight () {
-      return '100px'
+      return '100px';
     }
   }
 }
