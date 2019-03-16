@@ -1,7 +1,10 @@
 <template>
 <div class="store-shelf">
   <shelf-title></shelf-title>
-  <scroll class="store-shelf-scroll-wrapper" :top="0">
+  <scroll
+    class="store-shelf-scroll-wrapper"
+    :top="0"
+    @onScroll="onScroll">
     <shelf-search></shelf-search>
     <shelf-list></shelf-list>
   </scroll>
@@ -25,6 +28,9 @@ export default {
     ShelfList
   },
   methods: {
+    onScroll (offsetY) {
+      this.setOffsetY(offsetY)
+    },
     getShelfList () {
       shelf().then(res => {
         console.log(res)
