@@ -18,6 +18,7 @@ import Scroll from '../../components/common/Scroll'
 import ShelfSearch from '../../components/shelf/ShelfSearch'
 import ShelfList from '../../components/shelf/ShelfList'
 import { shelf } from '../../api/store'
+import { appendAddToShelf } from '../../utils/store'
 
 export default {
   mixins: [storeShelfMixin],
@@ -35,7 +36,7 @@ export default {
       shelf().then(res => {
         console.log(res)
         if (res.status === 200 && res.data && res.data.bookList) {
-          this.setShelfList(res.data.bookList)
+          this.setShelfList(appendAddToShelf(res.data.bookList))
         }
       })
     }
