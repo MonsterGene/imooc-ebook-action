@@ -50,7 +50,28 @@ export default {
     }
   },
   methods: {
-    onTabClick (item) {}
+    onTabClick (item) {
+      const popup = this.popup({
+        title: '标题',
+        btn: [
+          {
+            text: '确认',
+            click: () => {
+              this.toast({ text: '正在确认...' }).show()
+              popup.hide()
+            }
+          },
+          {
+            text: '取消',
+            type: 'danger',
+            click: () => {
+              this.toast({ text: '正在确认...' }).show()
+              popup.hide()
+            }
+          }
+        ]
+      }).show()
+    }
   }
 }
 </script>
