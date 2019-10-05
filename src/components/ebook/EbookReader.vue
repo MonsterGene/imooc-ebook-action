@@ -26,6 +26,7 @@ import {
   getLocation
 } from '../../utils/localStorage'
 import { flatten } from '../../utils/book'
+import { getLocalForage } from '../../utils/localForage'
 global.ePub = Epub
 
 export default {
@@ -223,8 +224,7 @@ export default {
         })
       })
     },
-    initEpub () {
-      const url = `${process.env.VUE_APP_RES_URL}/imooc-ebook-action/epub/` + this.fileName + `.epub`
+    initEpub (url) {
       this.book = new Epub(url)
       this.setCurrentBook(this.book)
       this.initRendition()
@@ -263,8 +263,21 @@ export default {
     }
   },
   mounted () {
-    this.setFileName(this.$route.params.fileName.split('|').join('/')).then(() => {
-      this.initEpub()
+    const books = this.$route.params.fileName.split('|')
+    const fileName = books[1]
+    getLocalForage(fileName, (err, blob) => {
+      if (!err && blob) {
+        console.log('找到已缓存的电子书')
+        this.setFileName(books.join('/')).then(() => {
+          this.initEpub(blob)
+        })
+      } else {
+        console.log('在线获取电子书')
+        this.setFileName(books.join('/')).then(() => {
+          const url = `${process.env.VUE_APP_RES_URL}/imooc-ebook-action/epub/` + this.fileName + `.epub`
+          this.initEpub(url)
+        })
+      }
     })
   }
 }

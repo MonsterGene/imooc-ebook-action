@@ -21,8 +21,6 @@ import Scroll from '../../components/common/Scroll'
 import ShelfSearch from '../../components/shelf/ShelfSearch'
 import ShelfList from '../../components/shelf/ShelfList'
 import ShelfFooter from '../../components/shelf/ShelfFooter'
-import { shelf } from '../../api/store'
-import { appendAddToShelf } from '../../utils/store'
 
 export default {
   mixins: [storeShelfMixin],
@@ -49,14 +47,6 @@ export default {
   methods: {
     onScroll (offsetY) {
       this.setOffsetY(offsetY)
-    },
-    getShelfList () {
-      shelf().then(res => {
-        console.log(res)
-        if (res.status === 200 && res.data && res.data.bookList) {
-          this.setShelfList(appendAddToShelf(res.data.bookList))
-        }
-      })
     }
   },
   mounted () {
