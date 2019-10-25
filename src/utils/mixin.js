@@ -11,7 +11,9 @@ export const storeShelfMixin = {
       'shelfList',
       'shelfSelected',
       'shelfTitleVisible',
-      'offsetY'
+      'offsetY',
+      'shelfCategory',
+      'currentType'
     ])
   },
   methods: {
@@ -20,10 +22,18 @@ export const storeShelfMixin = {
       'setShelfList',
       'setShelfSelected',
       'setShelfTitleVisible',
-      'setOffsetY'
+      'setOffsetY',
+      'setShelfCategory',
+      'setCurrentType'
     ]),
     showBookDetail (book) {
       gotoBookDetail(this, book)
+    },
+    getCategoryList (title) {
+      this.getShelfList().then(() => {
+        const categoryList = this.shelfList.filter(book => book.type === 2 && book.title === title)[0]
+        this.setShelfCategory(categoryList)
+      })
     },
     getShelfList () {
       let shelfList = getBookShelf()
@@ -33,11 +43,11 @@ export const storeShelfMixin = {
           if (res.status === 200 && res.data && res.data.bookList) {
             shelfList = appendAddToShelf(res.data.bookList)
             saveBookShelf(shelfList)
-            this.setShelfList(shelfList)
+            return this.setShelfList(shelfList)
           }
         })
       } else {
-        this.setShelfList(shelfList)
+        return this.setShelfList(shelfList)
       }
     }
   }

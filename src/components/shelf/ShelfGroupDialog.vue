@@ -38,7 +38,7 @@
 <script>
 import EbookDialog from '../common/Dialog'
 import { storeShelfMixin } from '../../utils/mixin'
-import { removeAddFromShelf, appendAddToShelf } from '../../utils/store'
+import { removeAddFromShelf, appendAddToShelf, computeId } from '../../utils/store'
 import { saveBookShelf } from '../../utils/localStorage'
 
 export default {
@@ -130,7 +130,19 @@ export default {
         })
     },
     moveOutFromGroup () {
-      this.moveOutOfGroup(this.onComplete)
+      // this.moveOutOfGroup(this.onComplete)
+      this.setShelfList(this.shelfList.map(book => {
+        if (book.type === 2 && book.itemList) {
+          book.itemList = book.itemList.filter(subBook => !subBook.selected)
+        }
+        return book
+      })).then(() => {
+        const list = computeId(appendAddToShelf([].concat(removeAddFromShelf(this.shelfList), ...this.shelfSelected)))
+        this.setShelfList(list).then(() => {
+          this.simpleToast(this.$t('shelf.moveBookOutSuccess'))
+          this.onComplete()
+        })
+      })
     },
     createNewGroup () {
       if (!this.newGroupName || this.newGroupName.length === 0) {

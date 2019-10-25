@@ -50,7 +50,14 @@ export default {
       } else {
         if (this.data.type === 1) {
           this.showBookDetail(this.data)
-        } else if (this.data.type === 2) {} else {
+        } else if (this.data.type === 2) {
+          this.$router.push({
+            path: '/store/category',
+            query: {
+              title: this.data.title
+            }
+          })
+        } else {
           gotoStoreHome(this)
         }
       }

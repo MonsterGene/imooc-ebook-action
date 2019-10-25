@@ -1,16 +1,19 @@
 <template>
 <div class="store-shelf">
-  <shelf-title :title="$t('shelf.title')"></shelf-title>
+  <shelf-title :title="shelfCategory.title" :ifShowBack="true"></shelf-title>
   <scroll
     ref="scroll"
     class="store-shelf-scroll-wrapper"
     :top="0"
     :bottom="scrollBottom"
-    @onScroll="onScroll">
-    <shelf-search></shelf-search>
-    <shelf-list :data="shelfList"></shelf-list>
+    @onScroll="onScroll"
+    v-if="ifShowList">
+    <shelf-list :top="42" :data="shelfCategory.itemList"></shelf-list>
     <shelf-footer></shelf-footer>
   </scroll>
+  <div v-else class="store-shelf-empty-view">
+    {{ $t('shelf.groupNone') }}
+  </div>
 </div>
 </template>
 
@@ -18,7 +21,6 @@
 import ShelfTitle from '../../components/shelf/ShelfTitle.vue'
 import { storeShelfMixin } from '../../utils/mixin'
 import Scroll from '../../components/common/Scroll'
-import ShelfSearch from '../../components/shelf/ShelfSearch'
 import ShelfList from '../../components/shelf/ShelfList'
 import ShelfFooter from '../../components/shelf/ShelfFooter'
 
@@ -27,13 +29,17 @@ export default {
   components: {
     ShelfTitle,
     Scroll,
-    ShelfSearch,
     ShelfList,
     ShelfFooter
   },
   data () {
     return {
       scrollBottom: 0
+    }
+  },
+  computed: {
+    ifShowList () {
+      return this.shelfCategory.itemList && this.shelfCategory.itemList.length > 0
     }
   },
   watch: {
@@ -50,9 +56,8 @@ export default {
     }
   },
   mounted () {
-    this.getShelfList()
-    this.setShelfCategory([])
-    this.setCurrentType(1)
+    this.getCategoryList(this.$route.query.title)
+    this.setCurrentType(2)
   }
 }
 </script>
@@ -69,7 +74,16 @@ export default {
     top: 0;
     left: 0;
     z-index: 101;
-
+  }
+  .store-shelf-empty-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: px2rem(14);
+    color: #333;
+    @include center;
   }
 }
 </style>
